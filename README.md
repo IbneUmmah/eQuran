@@ -8,33 +8,26 @@ Play Store. [Play Store Link](https://play.google.com/store/apps/details?id=com.
 ## Features
 - Full Quran both in Audio and Text Format
 - 134 Reciters Available
+- 39 Audio Translations
 - 119 Ayah by Ayah Translaton
 - Light/dark mode toggle
-- Live previews
-- Fullscreen mode
 - Cross platform Android(Tested), iOS,Windows
+- Background Play
+- and lot more...
 
 
 ## Screenshots
 <p float="left">
-  <img src="screenshots/screenshot0.jpeg" width="100" />
-  <img src="screenshots/screenshot1.jpeg" width="100" />
-  <img src="screenshots/screenshot2.jpeg" width="100" />
-  <img src="screenshots/screenshot3.jpeg" width="100" />
-  <img src="screenshots/screenshot4.jpeg" width="100" />
-  <img src="screenshots/screenshot5.jpeg" width="100" />
-  <img src="screenshots/screenshot6.jpeg" width="100" />
-  <img src="screenshots/screenshot7.jpeg" width="100" />
+  <img src="screenshots/screenshot0.jpeg" width="200" />
+  <img src="screenshots/screenshot1.jpeg" width="200" />
+  <img src="screenshots/screenshot2.jpeg" width="200" />
+  <img src="screenshots/screenshot3.jpeg" width="200" />
+  <img src="screenshots/screenshot4.jpeg" width="200" />
+  <img src="screenshots/screenshot5.jpeg" width="200" />
+  <img src="screenshots/screenshot6.jpeg" width="200" />
+  <img src="screenshots/screenshot7.jpeg" width="200" />
 
 </p>
-![App Screenshot](https://raw.githubusercontent.com/IbneUmmah/eQuran/804d49348d5fdf585cf10f32f19281e747c4bd1d/screenshots/screenshot0.jpeg)
-![App Screenshot](https://raw.githubusercontent.com/IbneUmmah/eQuran/804d49348d5fdf585cf10f32f19281e747c4bd1d/screenshots/screenshot1.jpeg)
-![App Screenshot](https://raw.githubusercontent.com/IbneUmmah/eQuran/804d49348d5fdf585cf10f32f19281e747c4bd1d/screenshots/screenshot2.jpeg)
-![App Screenshot](https://raw.githubusercontent.com/IbneUmmah/eQuran/804d49348d5fdf585cf10f32f19281e747c4bd1d/screenshots/screenshot3.jpeg)
-![App Screenshot](https://raw.githubusercontent.com/IbneUmmah/eQuran/804d49348d5fdf585cf10f32f19281e747c4bd1d/screenshots/screenshot4.jpeg)
-![App Screenshot](https://raw.githubusercontent.com/IbneUmmah/eQuran/804d49348d5fdf585cf10f32f19281e747c4bd1d/screenshots/screenshot5.jpeg)
-![App Screenshot](https://raw.githubusercontent.com/IbneUmmah/eQuran/804d49348d5fdf585cf10f32f19281e747c4bd1d/screenshots/screenshot6.jpeg)
-![App Screenshot](https://raw.githubusercontent.com/IbneUmmah/eQuran/804d49348d5fdf585cf10f32f19281e747c4bd1d/screenshots/screenshot7.jpeg)
 
 
 ## Inspirations
@@ -58,7 +51,7 @@ and sometime they sell their user data to bad people (like MuslimPro once sold t
 
 - Remember user prayer progress and notify if he/she is lagging
 
-- 
+- and so on. 
 
 
 ## Documentation

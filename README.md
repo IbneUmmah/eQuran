@@ -16,7 +16,17 @@ Play Store. [Play Store Link](https://play.google.com/store/apps/details?id=com.
 
 
 ## Screenshots
+<p float="left">
+  <img src="screenshots/screenshot0.jpeg" width="100" />
+  <img src="screenshots/screenshot1.jpeg" width="100" />
+  <img src="screenshots/screenshot2.jpeg" width="100" />
+  <img src="screenshots/screenshot3.jpeg" width="100" />
+  <img src="screenshots/screenshot4.jpeg" width="100" />
+  <img src="screenshots/screenshot5.jpeg" width="100" />
+  <img src="screenshots/screenshot6.jpeg" width="100" />
+  <img src="screenshots/screenshot7.jpeg" width="100" />
 
+</p>
 ![App Screenshot](https://raw.githubusercontent.com/IbneUmmah/eQuran/804d49348d5fdf585cf10f32f19281e747c4bd1d/screenshots/screenshot0.jpeg)
 ![App Screenshot](https://raw.githubusercontent.com/IbneUmmah/eQuran/804d49348d5fdf585cf10f32f19281e747c4bd1d/screenshots/screenshot1.jpeg)
 ![App Screenshot](https://raw.githubusercontent.com/IbneUmmah/eQuran/804d49348d5fdf585cf10f32f19281e747c4bd1d/screenshots/screenshot2.jpeg)

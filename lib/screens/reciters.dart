@@ -154,6 +154,11 @@ class RecitersScreen extends ConsumerWidget {
                         onChanged: (String str) {
                           rP.searchByNameOrNumber(str);
                         },
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border:
+                              Border.all(color: Theme.of(context).primaryColor),
+                        ),
                       ),
                     )
                   : Row(

@@ -22,6 +22,12 @@ extension Responsive on BuildContext {
   }
 }
 
+extension StringExtension on String {
+  String get titleCase {
+    return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
+  }
+}
+
 extension CurrentTime on int {
   String get currentTime {
     DateTime now = DateTime.now();

@@ -4,11 +4,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:quran/commonutils.dart';
 
 import 'package:quran/constants.dart';
 import 'package:quran/functions/fastfunctions.dart';
 import 'package:quran/main.dart';
 import 'package:quran/models/yearlyprayertiming.dart';
+import 'package:quran/screens/home.dart';
 
 import 'package:quran/screens/settings.dart';
 import 'package:quran/widgets/reuseablewidgets.dart';
@@ -62,10 +64,10 @@ class PrayerController with ChangeNotifier {
   int school = 1;
   int oldSchool = 1;
   String schoolName = "Hanafi";
-  String countryName = "Pakistan";
-  String cityName = "Lahore";
-  String oldCityName = "Lahore";
-
+  String countryName = "";
+  String cityName = "";
+  String oldCityName = "";
+  FocusNode focusNode = FocusNode();
   bool focus = false;
   bool settingsChanged = false;
 
@@ -89,6 +91,7 @@ class PrayerController with ChangeNotifier {
   updateCanChangeCity() {
     canChangeCity = true;
     focus = true;
+    focusNode.requestFocus();
     notifyListeners();
   }
 
@@ -96,10 +99,11 @@ class PrayerController with ChangeNotifier {
     cityName = city;
     canChangeCity = false;
     focus = false;
+    focusNode.unfocus();
     ifSettingsChanged();
   }
 
-  saveSettings(BuildContext context) async {
+  Future<bool> saveSettings(BuildContext context) async {
     if (notificationsOn) {
       UserPrayerPreference preference = UserPrayerPreference(
           country: countryName, city: cityName, method: method, school: school);
@@ -123,11 +127,13 @@ class PrayerController with ChangeNotifier {
         ifSettingsChanged();
 
         generatePrayerNotifications(newPrayerTimings);
+        return true;
       } else {
         showToast(
             context: context,
             content: Text(newPrayerTimings ?? 'Something went wrong'),
             color: Colors.red);
+        return false;
       }
     } else {
       await UC.flutterLocalNotificationsPlugin?.cancelAll();
@@ -135,6 +141,7 @@ class PrayerController with ChangeNotifier {
       oldNotificationsOn = false;
       UC.hive.put(kGetAdhanNotification, false);
       ifSettingsChanged();
+      return true;
     }
   }
 
@@ -220,7 +227,7 @@ class PrayerSettingScreen extends ConsumerWidget {
   static const id = "prayerSettingScreen";
   PrayerSettingScreen({Key? key}) : super(key: key);
   final TextEditingController textEditingController = TextEditingController();
-  final FocusNode focusNode = FocusNode();
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final pP = ref.watch(prayerProvider);
@@ -259,10 +266,15 @@ class PrayerSettingScreen extends ConsumerWidget {
                     ListTile(
                       leading: const Icon(Icons.location_city),
                       title: CupertinoTextField(
-                        focusNode: focusNode,
+                        focusNode: pP.focusNode,
                         autofocus: pP.focus,
                         prefixMode: OverlayVisibilityMode.notEditing,
-                        prefix: Text(pP.cityName),
+                        prefix: Text(
+                          pP.cityName.titleCase,
+                          style: const TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
                         readOnly: !pP.canChangeCity,
                         suffix: pP.canChangeCity
                             ? TextButton(
@@ -277,7 +289,7 @@ class PrayerSettingScreen extends ConsumerWidget {
                                 },
                                 child: const Text('Change City')),
                         style: const TextStyle(
-                          //color: Colors.black,
+                          color: Colors.black,
                           fontSize: 15.0,
                         ),
                         keyboardType: TextInputType.text,
@@ -289,6 +301,11 @@ class PrayerSettingScreen extends ConsumerWidget {
                           pP.checkCity(value);
                           //sP.searchByNameOrNumber(value);
                         },
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border:
+                              Border.all(color: Theme.of(context).primaryColor),
+                        ),
                       ),
                     ),
                     ListTile(
@@ -324,8 +341,9 @@ class PrayerSettingScreen extends ConsumerWidget {
                         child: const Text('Cancel')),
                     CupertinoButton(
                         color: Colors.green,
-                        onPressed: () {
-                          pP.saveSettings(context);
+                        onPressed: () async {
+                          bool isChanged = await pP.saveSettings(context);
+                          isChanged ? ref.refresh(homeProvider) : null;
                         },
                         child: const Text('Save'))
                   ],

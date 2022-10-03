@@ -148,15 +148,18 @@ class AudioQuranController with ChangeNotifier {
   //Search Feature///
 
   bool isSearching = false;
-
+  FocusNode focusNode = FocusNode();
   updateSearch(bool _) {
     isSearching = _;
-
+    focusNode.requestFocus();
     notifyListeners();
   }
 
   void unfocusClear() {
     searchByNameOrNumber('');
+    focusNode.unfocus();
+    isSearching = false;
+    notifyListeners();
   }
 
   AudioQuranController() {
@@ -170,14 +173,12 @@ class QuranAudio extends ConsumerWidget {
   QuranAudio({Key? key}) : super(key: key);
   TextEditingController textEditingController = TextEditingController();
 
-  FocusNode focusNode = FocusNode();
   @override
   Widget build(BuildContext context, ref) {
     final audioProvider = ref.watch(audioQuranProvider);
     final aSP = ref.watch(audioStateProvider);
     return WillPopScope(
       onWillPop: () async {
-        focusNode.unfocus();
         audioProvider.unfocusClear();
         textEditingController.clear();
         return true;
@@ -196,8 +197,7 @@ class QuranAudio extends ConsumerWidget {
                         ),
                       ),
                       child: CupertinoTextField(
-                        autofocus: true,
-                        focusNode: focusNode,
+                        focusNode: audioProvider.focusNode,
                         style: const TextStyle(
                           color: Colors.black,
                           fontSize: 15.0,
@@ -207,6 +207,11 @@ class QuranAudio extends ConsumerWidget {
                         onChanged: (String str) {
                           audioProvider.searchByNameOrNumber(str);
                         },
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border:
+                              Border.all(color: Theme.of(context).primaryColor),
+                        ),
                       ),
                     )
                   : Row(

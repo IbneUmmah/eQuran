@@ -19,13 +19,9 @@ class StartupScreen extends StatefulWidget {
   State<StartupScreen> createState() => _StartupScreenState();
 }
 
-class _StartupScreenState extends State<StartupScreen>
-    with SingleTickerProviderStateMixin {
+class _StartupScreenState extends State<StartupScreen> {
   String currentImage = kALLBackgrounds[0];
-  late final AnimationController _controller;
-  double value = 0.0;
-  bool canCall = true;
-  int currentImageIndex = 0;
+
   firstStartUp() async {
     await Initialization().initialized();
 
@@ -33,50 +29,17 @@ class _StartupScreenState extends State<StartupScreen>
     Navigator.pushReplacementNamed(context, Home.id);
   }
 
-  changeImage() async {
-    await Future.delayed(const Duration(seconds: 1));
-    if (currentImageIndex < kALLBackgrounds.length) {
-      currentImage = kALLBackgrounds[currentImageIndex];
-      currentImageIndex = currentImageIndex + 1;
-      mounted ? setState(() {}) : null;
-    } else {
-      currentImage =
-          kAladhanImages[Random().nextInt(kAladhanImages.length - 1)];
-      mounted ? setState(() {}) : null;
-    }
-    canCall = true;
-  }
-
-  update() {
-    if (canCall) {
-      canCall = false;
-      changeImage();
-    }
-  }
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     firstStartUp();
-    _controller =
-        AnimationController(duration: const Duration(seconds: 10), vsync: this);
-    _controller.forward();
-    _controller.addListener(() {
-      update();
-      if (_controller.value == 1.0) {
-        _controller.reverse();
-      }
-      if (_controller.value == 0.0) {
-        _controller.forward();
-      }
-    });
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
-    _controller.dispose();
+
     super.dispose();
   }
 
@@ -84,27 +47,30 @@ class _StartupScreenState extends State<StartupScreen>
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: AnimatedContainer(
-          duration: const Duration(milliseconds: 100),
-          curve: Curves.fastOutSlowIn,
-          width: double.infinity,
-          height: double.infinity,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              fit: BoxFit.fill,
-              image: CachedNetworkImageProvider(currentImage),
+        body: Column(
+          children: [
+            Expanded(
+              child: GridView.count(
+                crossAxisCount: 4,
+                children: kALLBackgrounds
+                    .map((e) => CachedNetworkImage(
+                          imageUrl: e,
+                          fit: BoxFit.fill,
+                        ))
+                    .toList(),
+              ),
             ),
-          ),
-          child: Center(
-            child: GlassMorphism(
-                start: 0.1,
-                end: 0.2,
-                child: AutoSizeText(
-                  'Getting things ready for you',
-                  style: Theme.of(context).textTheme.displaySmall,
-                  maxFontSize: 30,
-                )),
-          ),
+            const LinearProgressIndicator(
+              color: Colors.green,
+            ),
+            Text(
+              'Getting things ready for you...',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            const LinearProgressIndicator(
+              color: Colors.green,
+            )
+          ],
         ),
       ),
     );

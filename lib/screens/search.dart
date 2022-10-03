@@ -195,6 +195,10 @@ class Search extends ConsumerWidget {
                   onSubmitted: (value) {
                     sP.searchByNameOrNumber(value);
                   },
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: Theme.of(context).primaryColor),
+                  ),
                 ),
               )),
           body: SingleChildScrollView(

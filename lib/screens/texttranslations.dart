@@ -196,6 +196,11 @@ class AyahTranslationsScreen extends ConsumerWidget {
                         onChanged: (String str) {
                           tP.searchByNameOrNumber(str);
                         },
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border:
+                              Border.all(color: Theme.of(context).primaryColor),
+                        ),
                       ),
                     )
                   : Row(

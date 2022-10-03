@@ -245,8 +245,10 @@ class QuranFull extends ConsumerWidget {
                                 onSubmitted: (String str) {
                                   sP.searchByNameOrNumber(str);
                                 },
-                                decoration: const BoxDecoration(
+                                decoration: BoxDecoration(
                                   color: Colors.white,
+                                  border: Border.all(
+                                      color: Theme.of(context).primaryColor),
                                 ),
                               ),
                             ),

@@ -136,7 +136,7 @@ const AyahSchema = CollectionSchema(
   getId: _ayahGetId,
   getLinks: _ayahGetLinks,
   attach: _ayahAttach,
-  version: '3.0.0',
+  version: '3.0.2',
 );
 
 int _ayahEstimateSize(
@@ -2640,7 +2640,7 @@ const SurahSchema = CollectionSchema(
   getId: _surahGetId,
   getLinks: _surahGetLinks,
   attach: _surahAttach,
-  version: '3.0.0',
+  version: '3.0.2',
 );
 
 int _surahEstimateSize(
@@ -4459,7 +4459,7 @@ const ReciterSchema = CollectionSchema(
   getId: _reciterGetId,
   getLinks: _reciterGetLinks,
   attach: _reciterAttach,
-  version: '3.0.0',
+  version: '3.0.2',
 );
 
 int _reciterEstimateSize(
@@ -5497,7 +5497,7 @@ const TextTranslationSchema = CollectionSchema(
   getId: _textTranslationGetId,
   getLinks: _textTranslationGetLinks,
   attach: _textTranslationAttach,
-  version: '3.0.0',
+  version: '3.0.2',
 );
 
 int _textTranslationEstimateSize(

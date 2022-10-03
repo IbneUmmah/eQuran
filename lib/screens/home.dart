@@ -41,6 +41,7 @@ class HomeController with ChangeNotifier {
   late final Daily todayCalender;
   late Prayer currentPrayer;
   late Prayer nextPrayer;
+  late final String cityName;
 
   List<Ayah> lastReadTextAyahs = [];
   List<Surah> lastReadTextSurahs = [];
@@ -115,7 +116,9 @@ class HomeController with ChangeNotifier {
         UC.hive.get(kYearlyPrayerTimings),
       ),
     );
-
+    UserPrayerPreference userPrayerPreference = UserPrayerPreference.fromJson(
+        json.decode(UC.hive.get(kUserPrayerPrefencees)));
+    cityName = userPrayerPreference.city;
     todayCalender = yearlyPrayerTiming.data.months[DateTime.now().month - 1]
         [DateTime.now().day - 1];
     todayCalender.timings.prayers.sort(((a, b) => a.time.compareTo(b.time)));
@@ -299,15 +302,14 @@ class Home extends ConsumerWidget {
                           image: CachedNetworkImageProvider(image),
                         ),
                       ),
-                      child: Column(children: [
-                        Row(
+                      child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          //mainAxisSize: MainAxisSize.min,
                           children: [
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width / 2.5,
-                              child: ListTile(
-                                title: Text(
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              //mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
                                   '${hP.todayCalender.date.gregorian.weekday.en} ${hP.todayCalender.date.readable}',
                                   style: Theme.of(context)
                                       .textTheme
@@ -316,12 +318,16 @@ class Home extends ConsumerWidget {
                                         color: Colors.white,
                                       ),
                                 ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width / 2.5,
-                              child: ListTile(
-                                title: Text(
+                                Text(
+                                  hP.cityName.titleCase,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.copyWith(
+                                        color: Colors.white,
+                                      ),
+                                ),
+                                Text(
                                   '${hP.todayCalender.date.hijri.weekday.en} ${hP.todayCalender.date.hijri.date}',
                                   style: Theme.of(context)
                                       .textTheme
@@ -330,44 +336,52 @@ class Home extends ConsumerWidget {
                                         color: Colors.white,
                                       ),
                                 ),
-                              ),
+                              ],
                             ),
-                          ],
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              hP.currentPrayer.name,
-                              style: TextStyle(
-                                fontSize: 20,
-                                height: 1.2,
-                                color: Colors.white,
-                              ),
-                              textAlign: TextAlign.justify,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  DateFormat("h:mm a")
-                                      .format(
-                                          DateTime.parse(hP.currentPrayer.time)
-                                              .toLocal())
-                                      .split(' ')[0],
+                                  hP.currentPrayer.name,
                                   style: TextStyle(
-                                    fontSize: 40,
+                                    fontSize: 20,
                                     height: 1.2,
                                     color: Colors.white,
                                   ),
                                   textAlign: TextAlign.justify,
                                 ),
-                                Text(
-                                  DateFormat("h:mm a")
-                                      .format(
-                                          DateTime.parse(hP.currentPrayer.time)
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      DateFormat("h:mm a")
+                                          .format(DateTime.parse(
+                                                  hP.currentPrayer.time)
                                               .toLocal())
-                                      .split(' ')[1],
+                                          .split(' ')[0],
+                                      style: TextStyle(
+                                        fontSize: 40,
+                                        height: 1.2,
+                                        color: Colors.white,
+                                      ),
+                                      textAlign: TextAlign.justify,
+                                    ),
+                                    Text(
+                                      DateFormat("h:mm a")
+                                          .format(DateTime.parse(
+                                                  hP.currentPrayer.time)
+                                              .toLocal())
+                                          .split(' ')[1],
+                                      style: TextStyle(
+                                        height: 1.2,
+                                        color: Colors.white,
+                                      ),
+                                      textAlign: TextAlign.justify,
+                                    )
+                                  ],
+                                ),
+                                Text(
+                                  'Next ${hP.nextPrayer.name}',
                                   style: TextStyle(
                                     height: 1.2,
                                     color: Colors.white,
@@ -376,74 +390,52 @@ class Home extends ConsumerWidget {
                                 )
                               ],
                             ),
-                            Text(
-                              'Next ${hP.nextPrayer.name}',
-                              style: TextStyle(
-                                height: 1.2,
-                                color: Colors.white,
-                              ),
-                              textAlign: TextAlign.justify,
-                            )
-                          ],
-                        )
-                      ]),
-                    ), //Container
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: FractionallySizedBox(
-                        child: Container(
-
-                            //height: 200,
-
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Colors.transparent,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 8.0),
-                              child: SizedBox(
-                                width: MediaQuery.of(context).size.width / 1.3,
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.push(context,
-                                        MaterialPageRoute(builder: (context) {
-                                      return Search();
-                                    }));
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      color: Theme.of(context)
-                                          .canvasColor
-                                          .withOpacity(0.8),
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        SizedBox(
-                                          height: 60,
-                                          child: Center(
-                                            child: Text(
-                                              'Search Any Surah by Words',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyLarge
-                                                  ?.copyWith(
-                                                      //color: Colors.grey,
-                                                      ),
-                                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width / 1.3,
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return Search();
+                                  }));
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: Theme.of(context)
+                                        .canvasColor
+                                        .withOpacity(0.8),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      SizedBox(
+                                        height: 60,
+                                        child: Center(
+                                          child: Text(
+                                            'Search Any Surah by Words',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge
+                                                ?.copyWith(
+                                                    //color: Colors.grey,
+                                                    ),
                                           ),
                                         ),
-                                        Icon(CupertinoIcons.search),
-                                      ],
-                                    ),
+                                      ),
+                                      Icon(CupertinoIcons.search),
+                                    ],
                                   ),
                                 ),
                               ),
-                            )),
-                      ),
+                            ),
+                          ]),
                     ), //Container
+                    // Align(
+                    //   alignment: Alignment.bottomCenter,
+                    //   child:
+                    // ), //Container
                     //
                   ],
                 ),

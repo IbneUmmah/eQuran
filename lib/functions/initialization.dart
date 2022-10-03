@@ -126,6 +126,7 @@ class Initialization {
       [AyahSchema, SurahSchema, ReciterSchema, TextTranslationSchema],
       name: 'main',
       directory: '',
+      inspector: false,
     );
     isar.writeTxnSync(() {
       isar.reciters.putAllSync(isarReciters);
@@ -168,6 +169,7 @@ class Initialization {
       [AyahSchema, SurahSchema, ReciterSchema, TextTranslationSchema],
       name: 'main',
       directory: '',
+      inspector: false,
     );
     isar.writeTxnSync(() {
       isar.textTranslations.putAllSync(
@@ -260,6 +262,7 @@ class Initialization {
       [AyahSchema, SurahSchema, ReciterSchema, TextTranslationSchema],
       name: 'main',
       directory: '',
+      inspector: false,
     );
     isar.writeTxnSync(() {
       isar.surahs.putAllSync(

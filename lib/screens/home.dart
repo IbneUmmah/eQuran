@@ -47,6 +47,12 @@ class HomeController with ChangeNotifier {
   List<Surah> lastReadTextSurahs = [];
   List<Surah> lastRecitedSurahs = [];
 
+  refresh(Surah surah) {
+    lastRecitedSurahs.remove(surah);
+    lastRecitedSurahs.insert(0, surah);
+    notifyListeners();
+  }
+
   HomeController() {
     generateTodayPrayers();
     currentPrayerAndNext();
@@ -683,6 +689,14 @@ class Home extends ConsumerWidget {
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) {
                                 return RecentlyRecitedSurah(
+                                    recite: () {
+                                      ref
+                                          .read(audioStateProvider)
+                                          .initializeOldRecitingSurahsIfExist(
+                                              hP.lastRecitedSurahs[index],
+                                              startReciting: true);
+                                      hP.refresh(hP.lastRecitedSurahs[index]);
+                                    },
                                     name: hP.lastRecitedSurahs[index].name,
                                     description: hP.lastRecitedSurahs[index]
                                         .lastRecited!.currentTime,
@@ -924,8 +938,10 @@ class RecentlyRecitedSurah extends StatelessWidget {
   final String description;
   final String image;
   final double progress;
+  final Function recite;
   const RecentlyRecitedSurah({
     Key? key,
+    required this.recite,
     required this.description,
     required this.name,
     required this.image,
@@ -934,56 +950,60 @@ class RecentlyRecitedSurah extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: SizedBox(
-        height: 230,
-        width: 100,
-        child: Column(
-          children: [
-            Column(
-              children: [
-                Container(
-                  height: 100,
-                  width: 100,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30.0),
-                        topRight: Radius.circular(30.0),
-                      ),
-                      image: DecorationImage(
-                          fit: BoxFit.fill,
-                          colorFilter: ColorFilter.mode(
-                              Colors.yellow.withOpacity(0.2), BlendMode.darken),
-                          image: CachedNetworkImageProvider(image))),
-                  child: Center(
-                    child: Text(
-                      name,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 18,
-                        //height: 1.2,
-                        color: Colors.white,
+    return InkWell(
+      onTap: recite as void Function(),
+      child: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: SizedBox(
+          height: 230,
+          width: 100,
+          child: Column(
+            children: [
+              Column(
+                children: [
+                  Container(
+                    height: 100,
+                    width: 100,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(30.0),
+                          topRight: Radius.circular(30.0),
+                        ),
+                        image: DecorationImage(
+                            fit: BoxFit.fill,
+                            colorFilter: ColorFilter.mode(
+                                Colors.yellow.withOpacity(0.2),
+                                BlendMode.darken),
+                            image: CachedNetworkImageProvider(image))),
+                    child: Center(
+                      child: Text(
+                        name,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 18,
+                          //height: 1.2,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                LinearProgressIndicator(
-                  value: progress,
-                  color: Colors.red,
-                  backgroundColor: Colors.red.withOpacity(0.3),
-                )
-              ],
-            ),
-            Text(
-              description,
-              style: TextStyle(
-                fontSize: 10,
-                //height: 1.2,
-                //color: Colors.white,
+                  LinearProgressIndicator(
+                    value: progress,
+                    color: Colors.red,
+                    backgroundColor: Colors.red.withOpacity(0.3),
+                  )
+                ],
               ),
-            ),
-          ],
+              Text(
+                description,
+                style: TextStyle(
+                  fontSize: 10,
+                  //height: 1.2,
+                  //color: Colors.white,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

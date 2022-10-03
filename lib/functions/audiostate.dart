@@ -23,6 +23,7 @@ class AudioManager with ChangeNotifier {
   int currentRecitingAyah = 0;
   Surah? currentRecitingSurah;
   String? currentRecitingAlbum;
+  List<Surah> allSurahs = [];
   Future<Duration?> reciteAyah({required Ayah ayah}) async {
     try {
       recitingType = RecitingType.ayah;
@@ -135,8 +136,12 @@ class AudioManager with ChangeNotifier {
     }
   }
 
-  initializeOldRecitingSurahsIfExist(Surah surah) async {
-    List<Surah> totalSurahs = await compute(getAllSurahs, true);
+  initializeOldRecitingSurahsIfExist(Surah surah,
+      {bool startReciting = false}) async {
+    List<Surah> totalSurahs = allSurahs;
+    if (totalSurahs.isEmpty) {
+      totalSurahs = await compute(getAllSurahs, true);
+    }
     Reciter selectedReciter = UC.uv.selectedReciter;
     String selectedTranslation = UC.uv.selectedAudioTranslation;
     AudioType currentAudioType = UC.uv.selectedAudioType;
@@ -198,7 +203,7 @@ class AudioManager with ChangeNotifier {
       ));
     }
 
-    reciteSurah(chapters, surah, album, startReciting: false);
+    reciteSurah(chapters, surah, album, startReciting: startReciting);
   }
 
   AudioManager() {

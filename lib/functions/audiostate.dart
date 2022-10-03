@@ -140,7 +140,8 @@ class AudioManager with ChangeNotifier {
       {bool startReciting = false}) async {
     List<Surah> totalSurahs = allSurahs;
     if (totalSurahs.isEmpty) {
-      totalSurahs = await compute(getAllSurahs, true);
+      allSurahs = await compute(getAllSurahs, true);
+      totalSurahs = allSurahs;
     }
     Reciter selectedReciter = UC.uv.selectedReciter;
     String selectedTranslation = UC.uv.selectedAudioTranslation;

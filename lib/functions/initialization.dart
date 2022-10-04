@@ -61,7 +61,27 @@ class Initialization {
     }
   }
 
-  initialized() async {
+  initializePrayers() async {
+    String? location = await compute(getUserIPInfo, true);
+    if (location != null) {
+      LocationApi locationApi = locationApiFromJson(location);
+      UserPrayerPreference userPrayerPreference = UserPrayerPreference(
+          country: locationApi.country, city: locationApi.city);
+      String userPrefString = json.encode(userPrayerPreference.toJson());
+
+      String? yearlyPrayerTimings =
+          await compute(getYearlyPrayerTimings, userPrayerPreference);
+      if (yearlyPrayerTimings == null) {
+        throw Exception("Something went wrong . Internet is required");
+      }
+      UC.hive.put(kUserPrayerPrefencees, userPrefString);
+      UC.hive.put(kYearlyPrayerTimings, yearlyPrayerTimings);
+    } else {
+      throw Exception("Internet is required for first time");
+    }
+  }
+
+  initializeQuran() async {
     int currentVersion = UC.hive.get(kInitializedVersion, defaultValue: 2);
 
     if (currentVersion == kCurrentVersion) {
@@ -70,23 +90,6 @@ class Initialization {
     await compute(initializeAyahs, true);
     await compute(initializeReciters, true);
     await compute(initializeTextTranslations, true);
-    String? location = await compute(getUserIPInfo, true);
-    if (location != null) {
-      LocationApi locationApi = locationApiFromJson(location);
-      UserPrayerPreference userPrayerPreference = UserPrayerPreference(
-          country: locationApi.country, city: locationApi.city);
-      String userPrefString = json.encode(userPrayerPreference.toJson());
-      UC.hive.put(kUserPrayerPrefencees, userPrefString);
-
-      String? yearlyPrayerTimings =
-          await compute(getYearlyPrayerTimings, userPrayerPreference);
-
-      UC.hive.put(kYearlyPrayerTimings, yearlyPrayerTimings);
-    }
-    UC.hive.put(
-      kInitializedVersion,
-      kCurrentVersion,
-    );
 
     // Workmanager().initialize(
     //   dailyAyahDispatcher, // The top level function, aka callbackDispatcher

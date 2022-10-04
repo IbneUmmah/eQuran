@@ -20,13 +20,32 @@ class StartupScreen extends StatefulWidget {
 }
 
 class _StartupScreenState extends State<StartupScreen> {
-  String currentImage = kALLBackgrounds[0];
-
+  bool tryAgain = false;
+  String status = 'Getting things ready for you...';
   firstStartUp() async {
-    await Initialization().initialized();
+    try {
+      await Initialization().initializePrayers();
+      await Initialization().initializeQuran();
+      UC.hive.put(
+        kInitializedVersion,
+        kCurrentVersion,
+      );
+      UC.uv = UniversalVariables();
+      Navigator.pushReplacementNamed(context, Home.id);
+    } catch (e) {
+      tryAgain = true;
+      status = 'Internet is required for first time.Click Try Again';
+      setState(() {});
+      showToast(
+          context: context, content: Text(e.toString()), color: Colors.red);
+    }
+  }
 
-    UC.uv = UniversalVariables();
-    Navigator.pushReplacementNamed(context, Home.id);
+  retry() {
+    tryAgain = false;
+    status = 'Getting things ready for you...';
+    setState(() {});
+    firstStartUp();
   }
 
   @override
@@ -60,11 +79,27 @@ class _StartupScreenState extends State<StartupScreen> {
                     .toList(),
               ),
             ),
+            tryAgain
+                ? ElevatedButton(
+                    onPressed: () {
+                      retry();
+                    },
+                    style: Theme.of(context)
+                        .elevatedButtonTheme
+                        .style
+                        ?.copyWith(
+                          foregroundColor:
+                              const MaterialStatePropertyAll<Color>(Colors.red),
+                        ),
+                    child: const Text(
+                        'Internet is Required.Click me to try Again'),
+                  )
+                : const SizedBox(),
             const LinearProgressIndicator(
               color: Colors.green,
             ),
             Text(
-              'Getting things ready for you...',
+              status,
               style: Theme.of(context).textTheme.bodyLarge,
             ),
             const LinearProgressIndicator(

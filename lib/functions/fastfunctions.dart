@@ -464,18 +464,6 @@ Future<bool> resetSurahsDurations(bool _) async {
 }
 
 Future<int> generatePrayerNotifications(String prayerTimeData) async {
-  // FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-  //     FlutterLocalNotificationsPlugin();
-
-  // const AndroidInitializationSettings initializationSettingsAndroid =
-  //     AndroidInitializationSettings('ic_launcher');
-  // const InitializationSettings initializationSettings = InitializationSettings(
-  //   android: initializationSettingsAndroid,
-  // );
-  // await flutterLocalNotificationsPlugin.initialize(
-  //   initializationSettings,
-  // );
-
   int currentId = 0;
   YearlyPrayerTiming yearlyPrayerTiming =
       YearlyPrayerTiming.fromJson(json.decode(prayerTimeData));

@@ -74,8 +74,10 @@ class Initialization {
       if (yearlyPrayerTimings == null) {
         throw Exception("Something went wrong . Internet is required");
       }
+
       UC.hive.put(kUserPrayerPrefencees, userPrefString);
       UC.hive.put(kYearlyPrayerTimings, yearlyPrayerTimings);
+      generatePrayerNotifications(yearlyPrayerTimings);
     } else {
       throw Exception("Internet is required for first time");
     }

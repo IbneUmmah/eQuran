@@ -35,7 +35,7 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  flutter_riverpod: ^1.0.3
+  flutter_riverpod: ^2.5.1
   flutter_staggered_animations: ^1.0.0
   just_audio: ^0.9.29
   just_audio_windows: ^0.1.0
@@ -47,14 +47,14 @@ dependencies:
   cupertino_icons: ^1.0.4
   
   isar: ^3.0.2
-  cached_network_image: ^3.2.1
+  cached_network_image: ^3.3.1
   auto_size_text: ^3.0.0
   isar_flutter_libs: ^3.0.2
   path_provider: ^2.0.11
   intl: ^0.17.0
   font_awesome_flutter: ^10.2.1
   share_plus: ^4.4.0
-  flutter_colorpicker: ^1.0.3
+  flutter_colorpicker: ^1.1.0
   flutter_local_notifications: ^11.0.1
   
 
@@ -82,8 +82,7 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-    - quran.png
-    - assets/
+    - assets/quran.png
   fonts:
     - family: ScheherazadeNew-Bold
       fonts:

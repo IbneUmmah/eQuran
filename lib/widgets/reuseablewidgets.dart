@@ -275,19 +275,21 @@ class EachAudioSurahWidget extends StatelessWidget {
                                         ? const Color(0XFF29BB89)
                                         : Theme.of(context)
                                             .textTheme
-                                            .bodyText1
+                                            .bodyLarge
                                             ?.color,
                                   ),
                         ),
                         Text(
                           '$chapterType $chapterAyats Ayats',
-                          style: Theme.of(context).textTheme.button!.copyWith(
-                                color: isReciting
-                                    ? const Color(0XFF29BB89)
-                                    : Colors
-                                        .grey, //Theme.of(context).primaryColor.withOpacity(0.8),
-                                fontWeight: FontWeight.normal,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.labelSmall!.copyWith(
+                                    //TODO: it was .button before
+                                    color: isReciting
+                                        ? const Color(0XFF29BB89)
+                                        : Colors
+                                            .grey, //Theme.of(context).primaryColor.withOpacity(0.8),
+                                    fontWeight: FontWeight.normal,
+                                  ),
                         ),
                       ],
                     ),
@@ -299,7 +301,7 @@ class EachAudioSurahWidget extends StatelessWidget {
                             fontFamily: "ScheherazadeNew-Bold",
                             color: isReciting
                                 ? const Color(0XFF29BB89)
-                                : Theme.of(context).textTheme.bodyText1?.color,
+                                : Theme.of(context).textTheme.bodyLarge?.color,
                           ),
                     ),
                   ],
@@ -496,7 +498,7 @@ class AudioTranslationWidget extends StatelessWidget {
             leading: CounterWidget(count: int.parse(translationNo)),
             title: Text(
               translationNameEn,
-              style: Theme.of(context).textTheme.headline6,
+              style: Theme.of(context).textTheme.headlineSmall,
             ),
             trailing: ElevatedButton(
               style: Theme.of(context).elevatedButtonTheme.style?.copyWith(
@@ -575,7 +577,7 @@ class EachReciterWidget extends StatelessWidget {
               padding: const EdgeInsets.only(left: 15.0),
               child: Text(
                 reciterName,
-                style: Theme.of(context).textTheme.headline6,
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
             ),
             trailing: ElevatedButton(
@@ -676,7 +678,7 @@ class EachTextSurahWidget extends StatelessWidget {
                       ),
                       Text(
                         '$chapterType $chapterAyats Ayats',
-                        style: Theme.of(context).textTheme.caption,
+                        style: Theme.of(context).textTheme.labelSmall,
                       ),
                     ],
                   ),
@@ -754,7 +756,7 @@ class EachTextTranslationWidget extends StatelessWidget {
             leading: CounterWidget(count: int.parse(translationNo)),
             title: Text(
               translationNameEn,
-              style: Theme.of(context).textTheme.headline6,
+              style: Theme.of(context).textTheme.headlineSmall,
             ),
             trailing: ElevatedButton(
               style: Theme.of(context).elevatedButtonTheme.style?.copyWith(
@@ -777,7 +779,7 @@ class EachTextTranslationWidget extends StatelessWidget {
             ),
             subtitle: Text(
               '$translationNameL\n$type',
-              style: Theme.of(context).textTheme.subtitle2!.copyWith(
+              style: Theme.of(context).textTheme.labelSmall!.copyWith(
                     fontSize: 12,
                     color: Colors.grey,
                   ),
@@ -911,7 +913,7 @@ class CounterWidget extends StatelessWidget {
                 fontSize: 12.0,
                 color: isReciting
                     ? const Color(0XFF29BB89)
-                    : Theme.of(context).textTheme.bodyText1?.color,
+                    : Theme.of(context).textTheme.bodyLarge?.color,
               )),
         ),
       ],

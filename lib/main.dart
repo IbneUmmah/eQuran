@@ -448,7 +448,7 @@ class PlayerClose extends ConsumerWidget {
                       //audioState.chapterName,
                       style: Theme.of(context)
                           .textTheme
-                          .headline6
+                          .headlineSmall
                           ?.copyWith(color: Colors.white),
                     ),
                     subtitle: Text(
@@ -456,7 +456,7 @@ class PlayerClose extends ConsumerWidget {
                           'Start listening...', // audioState.albumName,
                       style: Theme.of(context)
                           .textTheme
-                          .caption
+                          .labelSmall
                           ?.copyWith(color: Colors.white),
                     ),
                   );
@@ -563,7 +563,6 @@ class PlayerClose extends ConsumerWidget {
                             }
 
                             //_.playing.toggle();
-
                           }
                         },
                         child: SizedBox(
@@ -775,7 +774,7 @@ class PlayerOpen extends ConsumerWidget {
                                           '${audioState.currentRecitingSurah?.number ?? ''} ${audioState.currentRecitingSurah?.englishName ?? 'Start...'}',
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headline4
+                                              .headlineMedium
                                               ?.copyWith(
                                                 color: Colors.white,
                                               ),
@@ -784,7 +783,7 @@ class PlayerOpen extends ConsumerWidget {
                                           'Surah No. ${audioState.currentRecitingSurah?.number ?? ''}',
                                           style: Theme.of(context)
                                               .textTheme
-                                              .subtitle1!
+                                              .labelSmall!
                                               .copyWith(
                                                 color: Colors.white,
                                               ),
@@ -793,7 +792,7 @@ class PlayerOpen extends ConsumerWidget {
                                           'Ayahs. ${audioState.currentRecitingSurah?.numberOfAyahs ?? ''}',
                                           style: Theme.of(context)
                                               .textTheme
-                                              .subtitle1!
+                                              .labelSmall!
                                               .copyWith(
                                                 color: Colors.white,
                                               ),
@@ -802,7 +801,7 @@ class PlayerOpen extends ConsumerWidget {
                                           '${audioState.currentRecitingSurah?.revelationType ?? ''}',
                                           style: Theme.of(context)
                                               .textTheme
-                                              .subtitle1!
+                                              .labelSmall!
                                               .copyWith(
                                                 color: Colors.white,
                                               ),

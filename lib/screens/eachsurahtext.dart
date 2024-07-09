@@ -206,7 +206,7 @@ class EachSurahTextController with ChangeNotifier {
             })
           ],
           style: TextStyle(
-            color: Theme.of(context).textTheme.headline1!.color,
+            color: Theme.of(context).textTheme.headlineLarge!.color,
             fontSize: fontSize,
             fontFamily: "ScheherazadeNew-Bold",
             textBaseline: TextBaseline.alphabetic,
@@ -221,7 +221,7 @@ class EachSurahTextController with ChangeNotifier {
       text: TextSpan(
           text: surahText[0].chapterNo == 9 ? surahText[0].text : null,
           style: TextStyle(
-            color: Theme.of(context).textTheme.headline1!.color,
+            color: Theme.of(context).textTheme.headlineLarge!.color,
             fontSize: fontSize,
             fontFamily: "ScheherazadeNew-Bold",
           ),

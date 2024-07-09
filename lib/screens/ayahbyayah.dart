@@ -399,7 +399,7 @@ class AyahByAyahScreen extends ConsumerWidget {
                                               style: TextStyle(
                                                 color: Theme.of(context)
                                                     .textTheme
-                                                    .headline1
+                                                    .headlineLarge
                                                     ?.color,
                                                 fontSize: 37.0,
                                                 fontFamily:

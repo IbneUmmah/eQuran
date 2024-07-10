@@ -64,7 +64,7 @@ class StatusMakerController with ChangeNotifier {
     final directory = (await getApplicationDocumentsDirectory()).path;
     File imgFile = File('$directory/screenshot.png');
     await imgFile.writeAsBytes(pngBytes);
-    Share.shareFiles([imgFile.path]);
+    Share.shareXFiles([XFile(imgFile.path)]);
   }
 
   updateSelectedBackgrond(int value) {

@@ -255,39 +255,31 @@ class StatusMaker extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       ElevatedButton(
-                          onPressed: () async {
-                            Clipboard.setData(ClipboardData(
-                                text:
-                                    '${sM.ayahText!.text}﴿${arabicNumeric(sM.ayahText!.numberInSurah)}﴾\n${sM.ayahTranslation!.text}﴾${sM.ayahTranslation!.numberInSurah}﴿\n${sM.ayahTranslation!.text}\n\n${sM.surah!.englishName} ${sM.ayahText!.numberInSurah}'));
-                            showToast(
-                                context: context,
-                                content: const Text('Copied to clipboard'));
-                          },
-                          child: const Text('Copy Text')),
+                        onPressed: () async {
+                          Clipboard.setData(ClipboardData(
+                              text:
+                                  '${sM.ayahText!.text}﴿${arabicNumeric(sM.ayahText!.numberInSurah)}﴾\n${sM.ayahTranslation!.text}﴾${sM.ayahTranslation!.numberInSurah}﴿\n${sM.ayahTranslation!.text}\n\n${sM.surah!.englishName} ${sM.ayahText!.numberInSurah}'));
+                          showToast(
+                              context: context,
+                              content: const Text('Copied to clipboard'));
+                        },
+                        child: Text(
+                          'Copy Text',
+                          style: Theme.of(context).textTheme.labelLarge,
+                        ),
+                      ),
                       ElevatedButton(
+                          style: Theme.of(context).elevatedButtonTheme.style,
                           onPressed: () async {
                             await sM.saveToGallery(
                                 MediaQuery.of(context).devicePixelRatio);
                           },
-                          child: const Text('Share Image')),
+                          child: Text(
+                            'Share Image',
+                            style: Theme.of(context).textTheme.labelLarge,
+                          )),
                     ],
                   ),
-                  // ListTile(
-                  //   title: const Text('Want to Select another Ayah?'),
-                  //   subtitle: const Text(
-                  //       'Goto Surah list and select surah and then click share button on ayah'),
-                  //   trailing: ElevatedButton(
-                  //     onPressed: () async {
-                  //       Navigator.push(
-                  //           context,
-                  //           MaterialPageRoute(
-                  //               builder: (context) => const QuranFull(
-                  //                     textChapter: false,
-                  //                   )));
-                  //     },
-                  //     child: const Text('Go To Surahs'),
-                  //   ),
-                  // ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -314,25 +306,6 @@ class StatusMaker extends ConsumerWidget {
                                   pickerColor: sM.overlayColor,
                                   onColorChanged: sM.updateOverlayColor,
                                 ),
-                                // Use Material color picker:
-                                //
-                                // child: MaterialPicker(
-                                //   pickerColor: pickerColor,
-                                //   onColorChanged: changeColor,
-                                //   showLabel: true, // only on portrait mode
-                                // ),
-                                //
-                                // Use Block color picker:
-                                //
-                                // child: BlockPicker(
-                                //   pickerColor: currentColor,
-                                //   onColorChanged: changeColor,
-                                // ),
-                                //
-                                // child: MultipleChoiceBlockPicker(
-                                //   pickerColors: currentColors,
-                                //   onColorsChanged: changeColors,
-                                // ),
                               ),
                               actions: <Widget>[
                                 ElevatedButton(

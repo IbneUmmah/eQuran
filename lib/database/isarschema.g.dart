@@ -7,7 +7,7 @@ part of 'isarschema.dart';
 // **************************************************************************
 
 // coverage:ignore-file
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters
+// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
 
 extension GetAyahCollection on Isar {
   IsarCollection<Ayah> get ayahs => this.collection();
@@ -136,7 +136,7 @@ const AyahSchema = CollectionSchema(
   getId: _ayahGetId,
   getLinks: _ayahGetLinks,
   attach: _ayahAttach,
-  version: '3.0.2',
+  version: '3.1.0+1',
 );
 
 int _ayahEstimateSize(
@@ -2544,7 +2544,7 @@ extension AyahQueryProperty on QueryBuilder<Ayah, Ayah, QQueryProperty> {
 }
 
 // coverage:ignore-file
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters
+// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
 
 extension GetSurahCollection on Isar {
   IsarCollection<Surah> get surahs => this.collection();
@@ -2640,7 +2640,7 @@ const SurahSchema = CollectionSchema(
   getId: _surahGetId,
   getLinks: _surahGetLinks,
   attach: _surahAttach,
-  version: '3.0.2',
+  version: '3.1.0+1',
 );
 
 int _surahEstimateSize(
@@ -4402,7 +4402,7 @@ extension SurahQueryProperty on QueryBuilder<Surah, Surah, QQueryProperty> {
 }
 
 // coverage:ignore-file
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters
+// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
 
 extension GetReciterCollection on Isar {
   IsarCollection<Reciter> get reciters => this.collection();
@@ -4459,7 +4459,7 @@ const ReciterSchema = CollectionSchema(
   getId: _reciterGetId,
   getLinks: _reciterGetLinks,
   attach: _reciterAttach,
-  version: '3.0.2',
+  version: '3.1.0+1',
 );
 
 int _reciterEstimateSize(
@@ -5420,7 +5420,7 @@ extension ReciterQueryProperty
 }
 
 // coverage:ignore-file
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters
+// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
 
 extension GetTextTranslationCollection on Isar {
   IsarCollection<TextTranslation> get textTranslations => this.collection();
@@ -5497,7 +5497,7 @@ const TextTranslationSchema = CollectionSchema(
   getId: _textTranslationGetId,
   getLinks: _textTranslationGetLinks,
   attach: _textTranslationAttach,
-  version: '3.0.2',
+  version: '3.1.0+1',
 );
 
 int _textTranslationEstimateSize(

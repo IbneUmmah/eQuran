@@ -171,12 +171,6 @@ class BookmarkController with ChangeNotifier {
           ),
         ),
       );
-
-      // SP.gs.put('scrollVerse$chapterNo',
-      //     ref.read(verseByVerseProvider).currentPixels);
-      // ref.refresh(lastProvider);
-      //   Get.find<Last>().update();
-      //Update current pixels as well;
     }
   }
 
@@ -294,19 +288,6 @@ class BookmarkScreen extends ConsumerWidget {
               'Bookmarks',
             ),
           ),
-          // floatingActionButton: Container(
-          //   color: Colors.red,
-          //   child: InkWell(
-          //       onTap: () async {
-          //         double oldPosition = upScrollController.position.pixels;
-          //         double addPosition =
-          //             upScrollController.position.maxScrollExtent / 10;
-          //         double newPosition = oldPosition + addPosition;
-          //         upScrollController.jumpTo(newPosition);
-          //         downScrollController.jumpTo(newPosition);
-          //       },
-          //       child: Icon(Icons.add, size: 40)),
-          // ),
           body: Column(
             mainAxisSize: MainAxisSize.min,
             children: [

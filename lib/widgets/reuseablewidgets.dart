@@ -367,16 +367,20 @@ class EachAyahWidget extends StatelessWidget {
                 textDirection: TextDirection.rtl,
               ),
             ),
-            Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                translation,
-                style: TextStyle(
-                  fontSize: UC.uv.selectedTranslationFontSize,
-                  fontFamily: "NotoNastaliqUrdu-Regular",
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  translation,
+                  style: TextStyle(
+                    fontSize: UC.uv.selectedTranslationFontSize,
+                    fontFamily: "NotoNastaliqUrdu-Regular",
+                    height: 2.0,
+                  ),
+                  textAlign: TextAlign.justify,
+                  textDirection: textDirection,
                 ),
-                textAlign: TextAlign.justify,
-                textDirection: textDirection,
               ),
             ),
             Container(
@@ -519,16 +523,6 @@ class AudioTranslationWidget extends StatelessWidget {
               style: Theme.of(context).textTheme.bodySmall,
             ),
           ),
-          // Padding(
-          //   padding: const EdgeInsets.only(left: 20.0),
-          //   child: GestureDetector(
-          //     onTap: likedTap as void Function()?,
-          //     child: Icon(
-          //       isLiked ? CupertinoIcons.heart_fill : CupertinoIcons.heart,
-          //       size: 20.0,
-          //     ),
-          //   ),
-          // ),
           const Padding(
             padding: EdgeInsets.only(
               left: 20.0,

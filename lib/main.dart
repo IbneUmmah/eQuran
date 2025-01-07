@@ -1,22 +1,20 @@
 import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:isar/isar.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:path_provider/path_provider.dart';
-
 import 'package:quran/constants.dart';
 import 'package:quran/database/isarschema.dart';
 import 'package:quran/functions/audiostate.dart';
+import 'package:quran/functions/fastfunctions.dart';
 import 'package:quran/functions/initialization.dart';
-
 import 'package:quran/screens/audioquran.dart';
 import 'package:quran/screens/bookmark.dart';
 import 'package:quran/screens/prayersettings.dart';
@@ -28,6 +26,7 @@ import 'package:quran/screens/settings.dart';
 import 'package:quran/screens/audiotranslations.dart';
 import 'package:quran/screens/texttranslations.dart';
 import 'package:quran/widgets/reuseablewidgets.dart';
+import 'package:workmanager/workmanager.dart';
 
 class UC {
   //static GetStorage gs = GetStorage();
@@ -114,8 +113,30 @@ class UniversalVariables with ChangeNotifier {
   }
 }
 
+initializeWorkManager() async {
+  bool isWorkManagerInitialized =
+      UC.hive.get('workManagerActivated', defaultValue: false);
+  bool getAyahNotifications =
+      UC.hive.get(kGetDailyAyahNotification, defaultValue: true);
+  if (isWorkManagerInitialized == false &&
+      Platform.isAndroid &&
+      getAyahNotifications) {
+    await Workmanager().initialize(
+      dailyAyahDispatcher, // The top level function, aka callbackDispatcher
+    );
+    await Workmanager().registerPeriodicTask(
+      kDailyAyahNotification,
+      "dailyAyahReminder",
+      frequency: const Duration(hours: 24),
+      initialDelay: initialDelay(),
+    );
+    UC.hive.put('workManagerActivated', true);
+  }
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting();
   await Hive.initFlutter();
 
   UC.hive = await Hive.openBox(kHiveBox);
@@ -147,6 +168,7 @@ void main() async {
   if (UC.hive.get(kInitializedVersion) != null) {
     UC.uv = UniversalVariables();
   }
+  await initializeWorkManager();
   runApp(const ProviderScope(child: Quran()));
 }
 
@@ -169,20 +191,9 @@ class Quran extends ConsumerWidget {
               : ThemeMode.dark,
       theme: ThemeData.light().copyWith(
           primaryColor: const Color(0XFF29BB89),
-          useMaterial3: true,
           canvasColor: Colors.white,
           cardColor: Colors.white,
-          // borderColor: Color(0XFF29BB89),
-          // accentColor: Color(0XFF29BB89),
-          // variantColor: Colors.black, //Color(0XFF289672),
-
           iconTheme: const IconThemeData(color: Color(0XFF29BB89), size: 20.0),
-          // intensity: 10.0,
-          // disableDepth: false,
-          // baseColor: Color(0xFFFFFFFF), //Color(0XFFF2F2F2),
-          // //lightSource: LightSource.topLeft,
-          // depth: 10,
-          // defaultTextColor: Color(0XFF29BB89),
           textTheme: const TextTheme(
             displayLarge: kCommonTextStyle,
             displayMedium: kCommonTextStyle,
@@ -208,14 +219,15 @@ class Quran extends ConsumerWidget {
           ),
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ButtonStyle(
-              surfaceTintColor: MaterialStateProperty.all(Colors.white),
-              shape: MaterialStateProperty.resolveWith<RoundedRectangleBorder>(
-                  (Set<MaterialState> states) {
-                if (states.contains(MaterialState.pressed)) {
+              backgroundColor: WidgetStateProperty.all(Colors.white),
+              surfaceTintColor: WidgetStateProperty.all(Colors.white),
+              shape: WidgetStateProperty.resolveWith<RoundedRectangleBorder>(
+                  (Set<WidgetState> states) {
+                if (states.contains(WidgetState.pressed)) {
                   return const RoundedRectangleBorder(
                     borderRadius: BorderRadius.zero,
                   );
-                } else if (states.contains(MaterialState.hovered)) {
+                } else if (states.contains(WidgetState.hovered)) {
                   return const RoundedRectangleBorder(
                     borderRadius: BorderRadius.zero,
                   );
@@ -224,32 +236,31 @@ class Quran extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(20),
                 );
               }),
-              foregroundColor: MaterialStateProperty.all(
-                Theme.of(context).primaryColor,
+              foregroundColor: WidgetStateProperty.all(
+                Theme.of(context).canvasColor,
               ),
-              elevation: MaterialStateProperty.resolveWith<double>(
-                  (Set<MaterialState> states) {
-                if (states.contains(MaterialState.pressed)) return 0.0;
+              elevation: WidgetStateProperty.resolveWith<double>(
+                  (Set<WidgetState> states) {
+                if (states.contains(WidgetState.pressed)) return 0.0;
                 return 5.0;
               }),
             ),
           )),
       darkTheme: ThemeData.dark().copyWith(
-        useMaterial3: true,
         iconTheme: const IconThemeData(
           color: Colors.white, //Color(0XFF29BB89),
         ),
 
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
-            surfaceTintColor: MaterialStateProperty.all(Colors.white),
-            shape: MaterialStateProperty.resolveWith<RoundedRectangleBorder>(
-                (Set<MaterialState> states) {
-              if (states.contains(MaterialState.pressed)) {
+            surfaceTintColor: WidgetStateProperty.all(Colors.white),
+            shape: WidgetStateProperty.resolveWith<RoundedRectangleBorder>(
+                (Set<WidgetState> states) {
+              if (states.contains(WidgetState.pressed)) {
                 return const RoundedRectangleBorder(
                   borderRadius: BorderRadius.zero,
                 );
-              } else if (states.contains(MaterialState.hovered)) {
+              } else if (states.contains(WidgetState.hovered)) {
                 return const RoundedRectangleBorder(
                   borderRadius: BorderRadius.zero,
                 );
@@ -258,15 +269,15 @@ class Quran extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(20),
               );
             }),
-            foregroundColor: MaterialStateProperty.all(
+            foregroundColor: WidgetStateProperty.all(
               Theme.of(context).canvasColor,
             ),
-            backgroundColor: MaterialStateProperty.all(
+            backgroundColor: WidgetStateProperty.all(
               Colors.grey[850],
             ),
-            elevation: MaterialStateProperty.resolveWith<double>(
-                (Set<MaterialState> states) {
-              if (states.contains(MaterialState.pressed)) return 0.0;
+            elevation: WidgetStateProperty.resolveWith<double>(
+                (Set<WidgetState> states) {
+              if (states.contains(WidgetState.pressed)) return 0.0;
               return 10.0;
             }),
           ),

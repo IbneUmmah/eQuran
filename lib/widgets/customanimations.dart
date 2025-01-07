@@ -40,23 +40,20 @@ class _MyCustomAnimationState extends State<MyCustomAnimation>
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 23,
-      child: Column(
-        children: [
-          const Align(
-            alignment: Alignment.topLeft,
-            child: Text(
-              'Continue Reading where your left off',
-              textAlign: TextAlign.justify,
-            ),
+    return Column(
+      children: [
+        const Align(
+          alignment: Alignment.topLeft,
+          child: Text(
+            'Continue Reading where your left off',
+            textAlign: TextAlign.justify,
           ),
-          LinearProgressIndicator(
-            value: value,
-            color: Colors.green,
-          )
-        ],
-      ),
+        ),
+        LinearProgressIndicator(
+          value: value,
+          color: Colors.green,
+        )
+      ],
     );
   }
 }
@@ -103,17 +100,14 @@ class _CountDownAnimationState extends State<CountDownAnimation>
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 23,
-      child: Column(
-        children: [
-          widget.child,
-          LinearProgressIndicator(
-            value: value,
-            color: widget.color,
-          )
-        ],
-      ),
+    return Column(
+      children: [
+        widget.child,
+        LinearProgressIndicator(
+          value: value,
+          color: widget.color,
+        )
+      ],
     );
   }
 }

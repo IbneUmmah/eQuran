@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:isar/isar.dart';
 import 'package:quran/constants.dart';
@@ -11,6 +12,7 @@ import 'package:quran/models/jsonmodeltranslation.dart';
 import 'package:quran/models/yearlyprayertiming.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:workmanager/workmanager.dart';
 
 Duration initialDelay() {
   DateTime now = DateTime.now();
@@ -19,80 +21,46 @@ Duration initialDelay() {
     tomorrow.year,
     tomorrow.month,
     tomorrow.day,
-    7,
-    50,
+    8,
+    10,
   );
 
   return morning.difference(now);
 }
 
-// @pragma(
-//     'vm:entry-point') // Mandatory if the App is obfuscated or using Flutter 3.1+
-// void dailyAyahDispatcher() {
-//   Workmanager().executeTask((task, inputData) async {
-//     FlutterLocalNotificationsPlugin pluging = FlutterLocalNotificationsPlugin();
-//     const AndroidInitializationSettings initializationSettingsAndroid =
-//         AndroidInitializationSettings('ic_launcher');
-//     const InitializationSettings initializationSettings =
-//         InitializationSettings(
-//       android: initializationSettingsAndroid,
-//     );
-//     pluging.initialize(
-//       initializationSettings,
-//     );
-//     List<dynamic> response = await compute(getRandomAyah, true);
-//     Ayah translation = response[1];
-//     Surah surah = response[2];
+@pragma(
+    'vm:entry-point') // Mandatory if the App is obfuscated or using Flutter 3.1+
+void dailyAyahDispatcher() {
+  Workmanager().executeTask((task, inputData) async {
+    FlutterLocalNotificationsPlugin pluging = FlutterLocalNotificationsPlugin();
+    const AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings('ic_launcher');
+    const InitializationSettings initializationSettings =
+        InitializationSettings(
+      android: initializationSettingsAndroid,
+    );
+    pluging.initialize(
+      initializationSettings,
+    );
+    List<dynamic> response = await compute(getRandomAyah, true);
+    Ayah translation = response[1];
+    Surah surah = response[2];
 
-//     pluging.show(
-//         0,
-//         '${surah.englishName} Ayah ${translation.numberInSurah}',
-//         translation.text,
-//         const NotificationDetails(
-//             android: AndroidNotificationDetails(
-//                 'eQuran Ayah Notifications', 'Ayah Notifications',
-//                 channelDescription: 'Daily Ayah Notifications',
-//                 styleInformation: BigTextStyleInformation(''),
-//                 importance: Importance.max,
-//                 priority: Priority.high)));
-//     //simpleTask will be emitted here.
-//     return true;
-//   });
-// }
-
-// @pragma(
-//     'vm:entry-point') // Mandatory if the App is obfuscated or using Flutter 3.1+
-// void oneTimeDispatcher() {
-//   Workmanager().executeTask((task, inputData) async {
-//     FlutterLocalNotificationsPlugin pluging = FlutterLocalNotificationsPlugin();
-//     const AndroidInitializationSettings initializationSettingsAndroid =
-//         AndroidInitializationSettings('ic_launcher');
-//     const InitializationSettings initializationSettings =
-//         InitializationSettings(
-//       android: initializationSettingsAndroid,
-//     );
-//     pluging.initialize(
-//       initializationSettings,
-//     );
-//     List<dynamic> response = await compute(getRandomAyah, true);
-//     Ayah translation = response[1];
-//     Surah surah = response[2];
-
-//     pluging.show(
-//         0,
-//         '${surah.englishName} Ayah ${translation.numberInSurah}',
-//         translation.text,
-//         const NotificationDetails(
-//             android: AndroidNotificationDetails(
-//                 'eQuran Ayah Notifications', 'Ayah Notifications',
-//                 channelDescription: 'Daily Ayah Notifications',
-//                 styleInformation: BigTextStyleInformation(''),
-//                 importance: Importance.max,
-//                 priority: Priority.high)));
-//     //simpleTask will be emitted here.
-//     return true;
-//   });
-// }
+    pluging.show(
+        0,
+        '${surah.englishName} Ayah ${translation.numberInSurah}',
+        translation.text,
+        const NotificationDetails(
+            android: AndroidNotificationDetails(
+                'eQuran Ayah Notifications', 'Ayah Notifications',
+                channelDescription: 'Daily Ayah Notifications',
+                styleInformation: BigTextStyleInformation(''),
+                importance: Importance.max,
+                priority: Priority.high)));
+    //simpleTask will be emitted here.
+    return true;
+  });
+}
 
 Future<List<List<Ayah>>> getTextAndTranslationAyahsBySurahNo(
     int surahNo) async {
@@ -406,7 +374,7 @@ Future<String?> getYearlyPrayerTimings(UserPrayerPreference userData) async {
     //     UserPrayerPreference.fromJson(json.decode(userPrefernce));
     int year = DateTime.now().year;
     Response response = await get(Uri.parse(
-        'https://api.aladhan.com/v1/calendarByCity?city=${userData.city}&country=${userData.country}&method=${userData.method}&annual=true&year=$year&iso8601=true&school=${userData.school}'));
+        'https://api.aladhan.com/v1/calendarByCity?city=${userData.city}&country=${userData.country}&method=${userData.method}&annual=true&year=$year&iso8601=true&school=${userData.school}&x7xapikey=61042f6584ed4f409dadd3a8eddde034'));
     if (response.statusCode == 200) {
       return response.body;
     } else {
@@ -498,7 +466,7 @@ Future<int> generatePrayerNotifications(String prayerTimeData) async {
                 importance: Importance.max,
                 priority: Priority.high),
           ),
-          androidAllowWhileIdle: true,
+          androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
           uiLocalNotificationDateInterpretation:
               UILocalNotificationDateInterpretation.absoluteTime,
           matchDateTimeComponents: DateTimeComponents.dateAndTime,

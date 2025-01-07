@@ -187,20 +187,7 @@ class AudioManager with ChangeNotifier {
             album: album,
             title: totalSurahs[i].englishName,
             artist: album,
-            extras: totalSurahs[i].toJson()
-            // extras: {
-            //   'chapterOrVerse': 'chapter',
-            //   'chapterNo': totalSurahs[i].number,
-            //   'chapterName': totalSurahs[i].name,
-            //   'chapterEnglishName': totalSurahs[i].englishName,
-            //   'chapterEnglishNameTranslation':
-            //       totalSurahs[i].englishNameTranslation,
-            //   'chapterNumberOfAyahs': totalSurahs[i].numberOfAyahs,
-            //   'chapterRevelationType': totalSurahs[i].revelationType.toString(),
-            //   'albumName': album,
-            // }
-            //artUri: Uri.parse('https://example.com/albumart.jpg'),
-            ),
+            extras: totalSurahs[i].toJson()),
       ));
     }
 
@@ -208,14 +195,6 @@ class AudioManager with ChangeNotifier {
   }
 
   AudioManager() {
-    // player.playerStateStream.listen(playerStreamState,
-    //     onError: (Object e, StackTrace stackTrace) {
-    //   print('State:##################33$e');
-    // });
-    // player.playbackEventStream.listen(playerStreamEvent,
-    //     onError: (Object e, StackTrace stackTrace) {
-    //   print('Event Error#############3$e');
-    // });
     currentRecitingSurah = UC.isar.surahs
         .filter()
         .lastRecitedIsNotNull()
@@ -245,8 +224,6 @@ class AudioManager with ChangeNotifier {
       currentDuration = position;
       notifyListeners();
       if (currentRecitingSurah != null && recitingType == RecitingType.surah) {
-        //currentRecitingSurah!.currentDuration = position.inSeconds;
-        //print("Position: ${currentDuration}}");
         Future.delayed(const Duration(seconds: 1)).then((value) {
           currentRecitingSurah?.currentDuration = position.inSeconds;
         });
@@ -255,14 +232,9 @@ class AudioManager with ChangeNotifier {
     player.durationStream.listen((duration) async {
       totalDuration = duration ?? const Duration(seconds: 1);
       notifyListeners();
-      //print('DurationCurrent: $totalDuration');
-      //totalDuration = duration ?? Duration.zero;
       if (currentRecitingSurah != null && recitingType == RecitingType.surah) {
         await Future.delayed(const Duration(seconds: 1));
         currentRecitingSurah?.totalDuration = duration?.inSeconds ?? 1;
-        // UC.isar.writeTxn(() {
-        //return UC.isar.surahs.put(surah);
-        //});
       }
     }, onError: (e, s) {});
     player.playerStateStream.listen((PlayerState state) {
@@ -274,18 +246,11 @@ class AudioManager with ChangeNotifier {
                 player.stop();
                 currentRecitingAyah = 0;
               } else {}
-
-              //this.player.seekToNext();
-              //currentReciting != 113 ? playNext() : reciteThis(0);
               break;
 
             case ProcessingState.buffering:
-              //buffering = true;
-              //notifyListeners();
               break;
-
             default:
-              //print('Default');
               break;
           }
         } catch (e) {}
@@ -300,9 +265,7 @@ class AudioManager with ChangeNotifier {
       }
       notifyListeners();
     });
-    player.sequenceStream.listen((event) {
-      //print('Sequence: ${event?[0].tag}');
-    });
+    player.sequenceStream.listen((event) {});
     player.playingStream.listen((event) {
       isReciting = event;
       notifyListeners();

@@ -36,8 +36,17 @@ extension CurrentTime on int {
     if (now.difference(date).inDays > 0) {
       difference = '${now.difference(date).inDays} days ago';
       if (now.difference(date).inDays > 7) {
-        DateFormat format = DateFormat.yMEd(difference);
+        DateFormat format = DateFormat.yMEd();
         difference = format.format(date);
+      }
+      if (now.difference(date).inDays == 1) {
+        difference = 'Yesterday';
+      }
+      if (now.difference(date).inDays > 7 && now.difference(date).inDays < 60) {
+        difference = 'a month ago';
+      }
+      if (now.difference(date).inDays > 60) {
+        difference = 'long time ago';
       }
     } else if (now.difference(date).inHours > 0) {
       difference = '${now.difference(date).inHours} hrs ago';

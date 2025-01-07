@@ -92,27 +92,6 @@ class Initialization {
     await compute(initializeAyahs, true);
     await compute(initializeReciters, true);
     await compute(initializeTextTranslations, true);
-
-    // Workmanager().initialize(
-    //   dailyAyahDispatcher, // The top level function, aka callbackDispatcher
-    // );
-    // // //Workmanager().registerOneOffTask("task-identifier", "simpleTask");
-    // final DateTime now = DateTime.now();
-    // final DateTime tomorrow = now.add(const Duration(days: 1));
-    // final DateTime morning = DateTime(
-    //   tomorrow.year,
-    //   tomorrow.month,
-    //   tomorrow.day,
-    //   7,
-    //   50,
-    // );
-    // Duration delay = morning.difference(now);
-    // Workmanager().registerPeriodicTask(
-    //   kDailyAyahNotification, "dailyAyahReminder",
-    //   frequency: const Duration(minutes: 15),
-    //   existingWorkPolicy: ExistingWorkPolicy.append,
-    //   //initialDelay: delay, //initialDelay(),
-    // );
   }
 
   Future<bool> initializeReciters(bool _) async {

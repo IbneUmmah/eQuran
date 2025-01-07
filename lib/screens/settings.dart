@@ -12,6 +12,7 @@ import 'package:quran/screens/audiotranslations.dart';
 import 'dart:math' as math;
 
 import 'package:quran/screens/texttranslations.dart';
+import 'package:workmanager/workmanager.dart';
 
 final settingsProvider =
     ChangeNotifierProvider.autoDispose(((ref) => SettingsController()));
@@ -36,32 +37,29 @@ class SettingsController with ChangeNotifier {
     }
   }
 
-  // updateAyahNotifications(bool value) {
-  //   getAyahNotifications = value;
-  //   UC.hive.put(kGetDailyAyahNotification, value);
-  //   notifyListeners();
+  updateAyahNotifications(bool value) async {
+    getAyahNotifications = value;
+    notifyListeners();
 
-  //   if (value) {
-  //     // Workmanager().initialize(
-  //     //   dailyAyahDispatcher, // The top level function, aka callbackDispatcher
-  //     // );
-  //     // //Workmanager().registerOneOffTask("task-identifier", "simpleTask");
-  //     // Workmanager().registerPeriodicTask(
-  //     //   kDailyAyahNotification,
-  //     //   "dailyAyahReminder",
-  //     //   frequency: const Duration(hours: 24),
-  //     //   initialDelay: initialDelay(),
-  //     // );
-  //     // Workmanager().initialize(
-  //     //   oneTimeDispatcher,
-  //     //   isInDebugMode: true,
-  //     //   // The top level function, aka callbackDispatcher
-  //     // );
-  //     // Workmanager().registerOneOffTask("test", "simpleTask");
-  //   } else {
-  //     Workmanager().cancelByUniqueName(kDailyAyahNotification);
-  //   }
-  // }
+    if (value) {
+      await Workmanager().initialize(
+        dailyAyahDispatcher, // The top level function, aka callbackDispatcher
+      );
+
+      await Workmanager().registerPeriodicTask(
+        kDailyAyahNotification,
+        "dailyAyahReminder",
+        frequency: const Duration(hours: 24),
+        initialDelay: initialDelay(),
+      );
+      UC.hive.put(kGetDailyAyahNotification, true);
+      UC.hive.put('workManagerActivated', true);
+    } else {
+      await Workmanager().cancelByUniqueName(kDailyAyahNotification);
+      UC.hive.put(kGetDailyAyahNotification, false);
+      UC.hive.put('workManagerActivated', false);
+    }
+  }
 
   updateArabicFontSize(double newFontSize) {
     newFontSize = newFontSize.floorToDouble();
@@ -96,91 +94,136 @@ class SettingsScreen extends ConsumerWidget {
             //automaticallyImplyLeading: false, //true,
             foregroundColor: const Color(0XFF29BB89),
           ),
-          body: Column(
-            children: [
-              InkWell(
-                onTap: () async {
-                  Navigator.pushNamed(context, PrayerSettingScreen.id);
-                },
-                child: EachSettingTab(
-                  title: 'Prayer Settings',
-                  description: 'Change Location/Methods',
-                  iconData: Icons.headphones,
-                ),
-              ),
-              // EachSettingSwitchTab(
-              //     iconData: CupertinoIcons.speaker_zzz,
-              //     onOff: sP.updateAyahNotifications,
-              //     value: sP.getAyahNotifications,
-              //     title: 'Daily Ayah Notifications',
-              //     description: "New Ayah every day"),
-              InkWell(
-                onTap: () {
-                  Navigator.pushNamed(context, RecitersScreen.id);
-                },
-                child: EachSettingTab(
-                  title: 'Change Reciters',
-                  description: '139 Reciters Available',
-                  iconData: Icons.person,
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.pushNamed(context, AudioTranslationsScreen.id);
-                },
-                child: EachSettingTab(
-                  title: 'Change Audio Translations',
-                  description: '39 Translations Available',
-                  iconData: Icons.headphones,
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.pushNamed(context, AyahTranslationsScreen.id);
-                },
-                child: EachSettingTab(
-                  title: 'Change Verse Translations',
-                  description: '114 Translations Available',
-                  iconData: Icons.abc,
-                ),
-              ),
-              Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  'Change Arabic Font Size  ${sP.arabicFontSize}px',
-                  style: TextStyle(
-                    height: 2.2,
-                    fontSize: 20,
-                    // color: Colors.white,
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+                InkWell(
+                  onTap: () async {
+                    Navigator.pushNamed(context, PrayerSettingScreen.id);
+                  },
+                  child: EachSettingTab(
+                    title: 'Prayer Settings',
+                    description: 'Change Location/Methods',
+                    iconData: Icons.headphones,
                   ),
-                  textAlign: TextAlign.justify,
                 ),
-              ),
-              Slider(
-                value: sP.arabicFontSize,
-                onChanged: sP.updateArabicFontSize,
-                min: 10.0,
-                max: 50.0,
-              ),
-              Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  'Change Translatio Font Size  ${sP.translationFontSize}px',
-                  style: TextStyle(
-                    height: 2.2,
-                    fontSize: 20,
-                    // color: Colors.white,
+                ListTile(
+                  leading: Icon(Icons.notifications_active),
+                  title: Text('Daily Ayah Notifications'),
+                  subtitle: Text(
+                      'Get a daily notification of a random verse from the Quran'),
+                  trailing: CupertinoSwitch(
+                    value: sP.getAyahNotifications,
+                    onChanged: sP.updateAyahNotifications,
                   ),
-                  textAlign: TextAlign.justify,
                 ),
-              ),
-              Slider(
-                value: sP.translationFontSize,
-                onChanged: sP.updateTranslationFontSize,
-                min: 10.0,
-                max: 50.0,
-              ),
-            ],
+                InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, RecitersScreen.id);
+                  },
+                  child: EachSettingTab(
+                    title: 'Change Reciters',
+                    description: '139 Reciters Available',
+                    iconData: Icons.person,
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, AudioTranslationsScreen.id);
+                  },
+                  child: EachSettingTab(
+                    title: 'Change Audio Translations',
+                    description: '39 Translations Available',
+                    iconData: Icons.headphones,
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, AyahTranslationsScreen.id);
+                  },
+                  child: EachSettingTab(
+                    title: 'Change Verse Translations',
+                    description: '114 Translations Available',
+                    iconData: Icons.abc,
+                  ),
+                ),
+                Card(
+                  color: Theme.of(context).canvasColor,
+                  elevation: 5.0,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(children: [
+                      Text(
+                        'Font Size',
+                        style: Theme.of(context).textTheme.headlineSmall,
+                      ),
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: Text(
+                          '﴿بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ﴾',
+                          style: TextStyle(
+                            fontSize: sP.arabicFontSize,
+                            fontFamily: "ScheherazadeNew-Bold",
+                          ),
+                          textAlign: TextAlign.justify,
+                          textDirection: TextDirection.rtl,
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          "In the name of God, the Most Gracious, the Most Merciful.",
+                          style: TextStyle(
+                            fontSize: sP.translationFontSize,
+                            fontFamily: "NotoNastaliqUrdu-Regular",
+                          ),
+                          textAlign: TextAlign.justify,
+                          textDirection: TextDirection.ltr,
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          'Arabic ${sP.arabicFontSize}px',
+                          style: TextStyle(
+                            height: 2.2,
+                            fontSize: 20,
+                            // color: Colors.white,
+                          ),
+                          textAlign: TextAlign.justify,
+                        ),
+                      ),
+                      Slider(
+                        value: sP.arabicFontSize,
+                        onChanged: sP.updateArabicFontSize,
+                        min: 10.0,
+                        max: 50.0,
+                        divisions: 12,
+                      ),
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          'Translation ${sP.translationFontSize}px',
+                          style: TextStyle(
+                            height: 2.2,
+                            fontSize: 20,
+                            // color: Colors.white,
+                          ),
+                          textAlign: TextAlign.justify,
+                        ),
+                      ),
+                      Slider(
+                        value: sP.translationFontSize,
+                        onChanged: sP.updateTranslationFontSize,
+                        min: 10.0,
+                        max: 50.0,
+                        divisions: 12,
+                      ),
+                    ]),
+                  ),
+                ),
+              ],
+            ),
           )),
     );
   }
@@ -249,15 +292,15 @@ class EachSettingSwitchTab extends StatelessWidget {
       padding: const EdgeInsets.only(top: 8.0),
       child: ElevatedButton(
         style: Theme.of(context).elevatedButtonTheme.style?.copyWith(
-              maximumSize: MaterialStateProperty.all(
+              maximumSize: WidgetStateProperty.all(
                 Size(
                   MediaQuery.of(context).size.width,
                   70,
                 ),
               ),
-              elevation: MaterialStateProperty.resolveWith<double>(
-                  (Set<MaterialState> states) {
-                if (states.contains(MaterialState.pressed)) return 0.0;
+              elevation: WidgetStateProperty.resolveWith<double>(
+                  (Set<WidgetState> states) {
+                if (states.contains(WidgetState.pressed)) return 0.0;
                 return 1.0;
               }),
             ),

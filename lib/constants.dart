@@ -41,36 +41,8 @@ const kCommonTextStyle = TextStyle(
 
 const kCommonTextStyleDark = TextStyle(
   color: Colors.white,
-  //Theme.of(context).iconTheme.color,
-  //fontSize: 20,
-
   fontFamily: "ScheherazadeNew-Bold",
 );
-// const kRadioStyle = NeumorphicRadioStyle(
-//   selectedDepth: -20.0,
-//   unselectedDepth: 10.0,
-//   intensity: 0.9,
-//   disableDepth: false,
-
-//   //shape: NeumorphicShape.flat,
-
-//   border: NeumorphicBorder(),
-//   //   unselectedColor: Color(0XFF29BB89),
-//   selectedColor: Color(0XFF29BB89), //Colors.blueAccent.withOpacity(0.5),
-// );
-
-// const kRadioStyleinGreen = NeumorphicRadioStyle(
-//     selectedDepth: -20.0,
-//     unselectedDepth: 10.0,
-//     intensity: 0.9,
-//     disableDepth: false,
-
-//     //shape: NeumorphicShape.flat,
-
-//     border: NeumorphicBorder(),
-//     unselectedColor: Color(0XFF29BB89),
-//     selectedColor: Colors.white //Colors.blueAccent.withOpacity(0.5),
-//     );
 
 const kRadioText = TextStyle(
   fontSize: 17.0,

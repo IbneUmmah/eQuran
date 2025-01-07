@@ -624,7 +624,7 @@ class Home extends ConsumerWidget {
                           ),
                         ),
                         SizedBox(
-                          height: 150,
+                          height: 110,
                           child: ListView.separated(
                               itemCount: hP.lastReadTextAyahs.length,
                               separatorBuilder: ((context, index) {
@@ -682,7 +682,7 @@ class Home extends ConsumerWidget {
                           ),
                         ),
                         SizedBox(
-                          height: 150,
+                          height: 128,
                           child: ListView.builder(
                               itemCount: hP.lastRecitedSurahs.length,
                               shrinkWrap: true,
@@ -754,8 +754,8 @@ class Home extends ConsumerWidget {
                       EachExploreTab(
                         index: 2,
                         iconData: Icons.book_outlined,
-                        title: 'Quran Translation',
-                        description: 'Ayah By Ayah',
+                        title: 'Translation',
+                        description: 'Ayah Ayah',
                       ),
                       EachExploreTab(
                         index: 3,
@@ -955,7 +955,7 @@ class RecentlyRecitedSurah extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(4.0),
         child: SizedBox(
-          height: 230,
+          height: 200,
           width: 100,
           child: Column(
             children: [

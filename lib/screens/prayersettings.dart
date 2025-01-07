@@ -231,10 +231,7 @@ class PrayerSettingScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final pP = ref.watch(prayerProvider);
-    return WillPopScope(
-      onWillPop: () async {
-        return true;
-      },
+    return PopScope(
       child: SafeArea(
         child: Scaffold(
           backgroundColor: Theme.of(context).canvasColor,

@@ -321,13 +321,8 @@ class EachQuranText extends ConsumerWidget {
     return WillPopScope(
       onWillPop: () async {
         await eSP.persistLastVisibleAyah();
-        print(eSP.lastVisibleAyah?.text);
         Navigator.pop(context, eSP.lastVisibleAyah);
         return true;
-        // eSP.surah!.number != chapterNo
-        //     ? ref.refresh(eachSurahTextProvider(chapterNo))
-        //     : null;
-        // return true;
       },
       child: SafeArea(
         child: Scaffold(
